@@ -58,6 +58,10 @@ public class MainActivity extends AppCompatActivity implements ChessDelegate {
     @Override
     public void colorOption(int col, int row) {
 
+        for (int i = 0; i<=27;i++){
+            green_square[i] = null;
+        }
+
         ChessPiece chessPiece = chessModel.pieceAt(col,row);
 
         if(chessPiece==null)return;
@@ -66,9 +70,6 @@ public class MainActivity extends AppCompatActivity implements ChessDelegate {
             return;
         }
 
-        for (int i = 0; i<=27;i++){
-            green_square[i] = null;
-        }
         ChessPlayer player = chessPiece.player;
 
 
