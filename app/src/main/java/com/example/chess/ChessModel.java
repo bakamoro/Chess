@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 
 public class ChessModel {
 
-
     ChessPiece pieceBox[];
     Green_Square green_square[];
     String game_name;
@@ -23,11 +22,6 @@ public class ChessModel {
         this.game_name = game_name;
         this.color = color;
         reset();
-    }
-
-    public ChessModel(ChessPiece pieceBox[],Green_Square green_square[]) {
-        this.pieceBox = pieceBox;
-        this.green_square = green_square;
     }
 
     /**
