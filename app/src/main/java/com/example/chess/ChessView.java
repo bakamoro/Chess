@@ -1,0 +1,192 @@
+package com.example.chess;
+
+import static com.example.chess.ChessDelegate.green_square;
+import static com.google.firebase.firestore.FieldValue.delete;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Toast;
+;import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import java.util.Map;
+
+public class ChessView extends View {
+
+    private final Paint paint = new Paint();
+    private int fromCol = 0,fromRow = 0;
+    private float toCol = 0,toRow = 0;
+    private final int originX = 20;
+    private final int originY = 300;
+    private final int cellSide = 130;
+    private boolean isMyTurn;
+
+    public final String TAG = "MainActivity";
+
+    ChessDelegate chessDelegate = null;
+    String game_name;
+    String color;
+    FireStoreHelper fireStoreHelper;
+
+    public ChessView(Context context) {
+        super(context);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        drawChessBoard(canvas);
+        drawChessPieces(canvas);
+        drawGreenSquares(canvas);
+        updateMoves();
+    }
+
+    private void drawGreenSquares(Canvas canvas) {
+        for (int i = 0;i<28;i++){
+            if(green_square[i]!=null) {
+                if (green_square[i].col >= 1 && green_square[i].col <= 8 && green_square[i].row >= 1 && green_square[i].row <= 8) {
+                    drawGreenSquare(canvas, green_square[i]);
+                }
+            }
+        }
+    }
+
+    private void drawGreenSquare(Canvas canvas ,Green_Square square) {
+        Paint mPaint = new Paint();
+        int color = ContextCompat.getColor(getContext(), R.color.light_green);
+        mPaint.setColor(color);
+        canvas.drawRect(originX + (square.col - 1) * cellSide, originY + (8 - square.row) * cellSide, originX + (square.col) * cellSide, originY + (8 - square.row + 1) * cellSide, mPaint);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:{
+                if (isMyTurn) {
+                    toCol = (int) ((event.getX() - originX) / cellSide) + 1;
+                    toRow = 8 - (int) ((event.getY() - originY) / cellSide);
+                    if (chessDelegate.squareIsGreen((int) toCol, (int) toRow)) {
+                        if (chessDelegate.pieceAt(fromCol, fromRow) != null && chessDelegate.pieceAt(fromCol, fromRow).rank == ChessRank.PAWN) {
+                            if (chessDelegate.pieceAt(fromCol, fromRow).player == ChessPlayer.WHITE) {
+                                if (toRow == 8) {
+                                    chessDelegate.pieceAt(fromCol, fromRow).rank = ChessRank.QUEEN;
+                                    chessDelegate.pieceAt(fromCol, fromRow).resId = R.drawable.queen_white;
+                                }
+                            } else {
+                                if (toRow == 1) {
+                                    chessDelegate.pieceAt(fromCol, fromRow).rank = ChessRank.QUEEN;
+                                    chessDelegate.pieceAt(fromCol, fromRow).resId = R.drawable.queen_black;
+                                }
+                            }
+                        }
+                        chessDelegate.movePiece(fromCol, fromRow, toCol, toRow);
+                        isMyTurn = false;
+                    } else {
+                        fromCol = (int) toCol;
+                        fromRow = (int) toRow;
+                        chessDelegate.colorOption(fromCol, fromRow);
+                    }
+                    fromCol = (int) toCol;
+                    fromRow = (int) toRow;
+                    invalidate();
+                }
+                break;
+            }
+            case MotionEvent.ACTION_MOVE:{
+//                int col = (int) ((event.getX()-originX)/cellSide);
+//                int row = (int) ((event.getY()-originY)/cellSide);
+//                Log.d(TAG,"Move at (" + (col+1) + "," + (8-row) + ")");
+                break;
+            }
+        }
+        return true;
+    }
+
+    private void drawChessPieces(Canvas canvas) {
+        for(int row = 1;row<=8;row++){
+            for(int col = 1;col <= 8;col++){
+                ChessPiece chessPiece = chessDelegate.pieceAt(col,row);
+                if(chessPiece != null){
+                    drawChessPiece(canvas,col,row,chessPiece.resId);
+                }
+            }
+        }
+    }
+    private void drawChessPiece(Canvas canvas , int col , int row , int Id) {
+        row = 9-row;
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), Id);
+        canvas.drawBitmap(bitmap,null,new Rect((col-1) * cellSide + originX,(row-1) * cellSide + originY,col*cellSide + originX,row*cellSide + originY),paint);
+    }
+
+    private void drawChessBoard(Canvas canvas){
+        for(int i = 0 ;i<=7 ;i++) {
+            for(int j = 0 ;j<=7 ;j++) {
+                if((j + i) % 2 == 0) {
+                    paint.setColor(Color.LTGRAY);
+                }
+                else paint.setColor(Color.DKGRAY);
+                canvas.drawRect(originX + i * cellSide , originY + j * cellSide , originX + (i+1) * cellSide , originY + (j+1) * cellSide ,paint);
+            }
+        }
+    }
+    public void updateMoves(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("chess games").document(game_name).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(value.get("LastMove") != null) {
+                    if (value.get("TURN").toString().equals(color)) {
+                        String chess_move = value.get("LastMove").toString();
+                        String[] points = chess_move.split(" -> ");
+                        int fromCol = Integer.parseInt(points[0].split(",")[0]);
+                        int fromRow = Integer.parseInt(points[0].split(",")[1]);
+                        int toCol = Integer.parseInt(points[1].split(",")[0]);
+                        int toRow = Integer.parseInt(points[1].split(",")[1]);
+                        chessDelegate.movePiece(fromCol, fromRow, toCol, toRow);
+                        isMyTurn = true;
+                        invalidate();
+                    }
+                    if(value.get("Victory") != null){
+                        Toast.makeText(getContext(),color + "won",Toast.LENGTH_LONG).show();
+                        try {
+                            wait(4000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        delete();//TODO: תבדוק שזה באמת מוחק רק את המשחק הזה
+                    }
+                }
+                else {
+                    if (color.equals("white"))
+                        isMyTurn = true;
+                }
+            }
+        });
+    }
+
+    public ChessView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public ChessView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    public ChessView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+    }
+}
