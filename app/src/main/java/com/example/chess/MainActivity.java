@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements ChessDelegate {
         color = intent.getStringExtra("color");
         chessView.game_name = game_name;
         chessView.color = color;
+        if(color.equals("white")) chessView.isMyTurn = true;
         chessModel = new ChessModel(pieceBox,green_square,game_name,color);
     }
 

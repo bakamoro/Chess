@@ -48,8 +48,7 @@ public class ChessModel {
             pieceBox[eatenPieceIndex] = null;
         }
         FireStoreHelper fireStoreHelper = new FireStoreHelper(game_name);
-        fireStoreHelper.addMove(color,pieceBox[movingPieceIndex].col+","+pieceBox[movingPieceIndex].row +" -> "+(int) toCol+","+(int) toRow);
-        if(pieceAt((int) toCol, (int) toRow) != null) {
+         if(pieceAt((int) toCol, (int) toRow) != null) {
             if (pieceAt((int) toCol, (int) toRow).rank == ChessRank.KING) {
                 fireStoreHelper.victory(color);
             }

@@ -15,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class FireStoreHelper {

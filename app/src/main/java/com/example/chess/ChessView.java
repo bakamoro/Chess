@@ -33,14 +33,14 @@ public class ChessView extends View {
     private final int originX = 20;
     private final int originY = 300;
     private final int cellSide = 130;
-    private boolean isMyTurn;
+
 
     public final String TAG = "MainActivity";
 
     ChessDelegate chessDelegate = null;
     String game_name;
     String color;
-    FireStoreHelper fireStoreHelper;
+    boolean isMyTurn;
 
     public ChessView(Context context) {
         super(context);
@@ -95,15 +95,17 @@ public class ChessView extends View {
                             }
                         }
                         chessDelegate.movePiece(fromCol, fromRow, toCol, toRow);
+                        FireStoreHelper fireStoreHelper = new FireStoreHelper(game_name);
+                        fireStoreHelper.addMove(color,fromCol+","+fromRow+" -> "+(int) toCol+","+(int) toRow);
                         isMyTurn = false;
                     } else {
                         fromCol = (int) toCol;
                         fromRow = (int) toRow;
                         chessDelegate.colorOption(fromCol, fromRow);
+                        invalidate();
                     }
                     fromCol = (int) toCol;
                     fromRow = (int) toRow;
-                    invalidate();
                 }
                 break;
             }
@@ -149,7 +151,7 @@ public class ChessView extends View {
         db.collection("chess games").document(game_name).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                if(value.get("LastMove") != null) {
+                if(value.get("LastMove") != null && isMyTurn == false) {
                     if (value.get("TURN").toString().equals(color)) {
                         String chess_move = value.get("LastMove").toString();
                         String[] points = chess_move.split(" -> ");
@@ -159,7 +161,6 @@ public class ChessView extends View {
                         int toRow = Integer.parseInt(points[1].split(",")[1]);
                         chessDelegate.movePiece(fromCol, fromRow, toCol, toRow);
                         isMyTurn = true;
-                        invalidate();
                     }
                     if(value.get("Victory") != null){
                         Toast.makeText(getContext(),color + "won",Toast.LENGTH_LONG).show();
@@ -170,10 +171,6 @@ public class ChessView extends View {
                         }
                         delete();//TODO: תבדוק שזה באמת מוחק רק את המשחק הזה
                     }
-                }
-                else {
-                    if (color.equals("white"))
-                        isMyTurn = true;
                 }
             }
         });
