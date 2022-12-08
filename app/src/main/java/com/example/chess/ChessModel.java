@@ -25,6 +25,11 @@ public class ChessModel {
         reset();
     }
 
+    public ChessModel(ChessPiece pieceBox[],Green_Square green_square[]) {
+        this.pieceBox = pieceBox;
+        this.green_square = green_square;
+    }
+
     /**
      * This function get a piece's location and anew location and move the piece from the old location to the new location.
      * @param fromCol - the piece's col.
@@ -63,27 +68,27 @@ public class ChessModel {
     public void reset(){
         int i = 0 ,j = 0;
         for(;i<2;i++){
-            pieceBox[j++] = new ChessPiece(1 + i*7,1,ChessPlayer.WHITE,ChessRank.ROOK,R.drawable.rook_white);
-            pieceBox[j++] = new ChessPiece(1 + i*7,8,ChessPlayer.BLACK,ChessRank.ROOK,R.drawable.rook_black);
+            pieceBox[j++] = new Rook(1 + i*7,1,ChessPlayer.WHITE,R.drawable.rook_white);
+            pieceBox[j++] = new Rook(1 + i*7,8,ChessPlayer.BLACK,R.drawable.rook_black);
 
-            pieceBox[j++] = new ChessPiece(2 + i*5,1,ChessPlayer.WHITE,ChessRank.KNIGHT,R.drawable.knight_white);
-            pieceBox[j++] = new ChessPiece(2 + i*5,8,ChessPlayer.BLACK,ChessRank.KNIGHT,R.drawable.knight_black);
+            pieceBox[j++] = new Knight(2 + i*5,1,ChessPlayer.WHITE,R.drawable.knight_white);
+            pieceBox[j++] = new Knight(2 + i*5,8,ChessPlayer.BLACK,R.drawable.knight_black);
 
-            pieceBox[j++] = new ChessPiece(3 + i*3,1,ChessPlayer.WHITE,ChessRank.BISHOP,R.drawable.bishop_white);
-            pieceBox[j++] = new ChessPiece(3 + i*3,8,ChessPlayer.BLACK,ChessRank.BISHOP,R.drawable.bishop_black);
+            pieceBox[j++] = new Bishop(3 + i*3,1,ChessPlayer.WHITE,R.drawable.bishop_white);
+            pieceBox[j++] = new Bishop(3 + i*3,8,ChessPlayer.BLACK,R.drawable.bishop_black);
         }
 
         for (i = 1;i <= 8;i++){
-            pieceBox[j++] = new ChessPiece(i,2,ChessPlayer.WHITE,ChessRank.PAWN,R.drawable.pawn_white);
-            pieceBox[j++] = new ChessPiece(i,7,ChessPlayer.BLACK,ChessRank.PAWN,R.drawable.pawn_black);
+            pieceBox[j++] = new Pawn(i,2,ChessPlayer.WHITE,R.drawable.pawn_white);
+            pieceBox[j++] = new Pawn(i,7,ChessPlayer.BLACK,R.drawable.pawn_black);
         }
 
-        pieceBox[j++] = new ChessPiece(4,1,ChessPlayer.WHITE,ChessRank.QUEEN,R.drawable.queen_white);
-        pieceBox[j++] = new ChessPiece(4,8,ChessPlayer.BLACK,ChessRank.QUEEN,R.drawable.queen_black);
+        pieceBox[j++] = new Queen(4,1,ChessPlayer.WHITE,R.drawable.queen_white);
+        pieceBox[j++] = new Queen(4,8,ChessPlayer.BLACK,R.drawable.queen_black);
 
 
-        pieceBox[j++] = new ChessPiece(5,1,ChessPlayer.WHITE,ChessRank.KING,R.drawable.king_white);
-        pieceBox[j++] = new ChessPiece(5,8,ChessPlayer.BLACK,ChessRank.KING,R.drawable.king_black);
+        pieceBox[j++] = new King(5,1,ChessPlayer.WHITE,R.drawable.king_white);
+        pieceBox[j++] = new King(5,8,ChessPlayer.BLACK,R.drawable.king_black);
     }
 
     /**
