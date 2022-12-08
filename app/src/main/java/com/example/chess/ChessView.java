@@ -11,11 +11,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
-;import androidx.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -23,7 +23,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-import java.util.Map;
+;
 
 public class ChessView extends View {
 
@@ -71,6 +71,7 @@ public class ChessView extends View {
         mPaint.setColor(color);
         canvas.drawRect(originX + (square.col - 1) * cellSide, originY + (8 - square.row) * cellSide, originX + (square.col) * cellSide, originY + (8 - square.row + 1) * cellSide, mPaint);
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
