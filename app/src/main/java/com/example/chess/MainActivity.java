@@ -86,6 +86,10 @@ public class MainActivity extends AppCompatActivity implements ChessDelegate {
 //        }
     }
 
+    @Override
+    public void Finish() {
+        finish();
+    }
 
 
     private void paintPawnOption(int col, int row,ChessPlayer player) {

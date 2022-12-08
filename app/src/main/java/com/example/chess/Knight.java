@@ -3,7 +3,6 @@ package com.example.chess;
 import static com.example.chess.ChessDelegate.green_square;
 
 public class Knight extends ChessPiece{
-    ChessRank rank = ChessRank.KNIGHT;
     public Knight(int col, int row, ChessPlayer player, int resId) {
         super(col, row, player,ChessRank.KNIGHT, resId);
     }

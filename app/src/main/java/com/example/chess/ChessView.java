@@ -34,9 +34,6 @@ public class ChessView extends View {
     private final int originY = 300;
     private final int cellSide = 130;
 
-
-    public final String TAG = "MainActivity";
-
     ChessDelegate chessDelegate = null;
     String game_name;
     String color;
@@ -163,13 +160,14 @@ public class ChessView extends View {
                         isMyTurn = true;
                     }
                     if(value.get("Victory") != null){
-                        Toast.makeText(getContext(),color + "won",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "The "+value.get("Victory") + " won",Toast.LENGTH_LONG).show();
                         try {
-                            wait(4000);
+                            Thread.sleep(1000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        delete();//TODO: תבדוק שזה באמת מוחק רק את המשחק הזה
+                        db.collection("chess games").document(game_name).delete();
+                        chessDelegate.Finish();
                     }
                 }
             }
