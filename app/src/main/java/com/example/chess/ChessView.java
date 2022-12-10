@@ -1,7 +1,6 @@
 package com.example.chess;
 
 import static com.example.chess.ChessDelegate.green_square;
-import static com.google.firebase.firestore.FieldValue.delete;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -180,9 +179,5 @@ public class ChessView extends View {
 
     public ChessView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    public ChessView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 }
