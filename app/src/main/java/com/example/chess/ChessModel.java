@@ -59,32 +59,35 @@ public class ChessModel {
     /**
      * reset pieceBox to the start position of chess board.
      */
-    public void reset(){
-        int i = 0 ,j = 0;
-        for(;i<2;i++){
-            pieceBox[j++] = new Rook(1 + i*7,1,ChessPlayer.WHITE,R.drawable.rook_white);
-            pieceBox[j++] = new Rook(1 + i*7,8,ChessPlayer.BLACK,R.drawable.rook_black);
+    public void reset() {
+        int i = 0, j = 0,colorDifferance = 0;
+        if(color.equals("black")){
+            colorDifferance = 9;
+        }
+        for (; i < 2; i++) {
+            pieceBox[j++] = new Rook(1 + i * 7, Math.abs(colorDifferance-1), ChessPlayer.WHITE, R.drawable.rook_white);
+            pieceBox[j++] = new Rook(1 + i * 7, Math.abs(colorDifferance-8), ChessPlayer.BLACK, R.drawable.rook_black);
 
-            pieceBox[j++] = new Knight(2 + i*5,1,ChessPlayer.WHITE,R.drawable.knight_white);
-            pieceBox[j++] = new Knight(2 + i*5,8,ChessPlayer.BLACK,R.drawable.knight_black);
+            pieceBox[j++] = new Knight(2 + i * 5, Math.abs(colorDifferance-1), ChessPlayer.WHITE, R.drawable.knight_white);
+            pieceBox[j++] = new Knight(2 + i * 5, Math.abs(colorDifferance-8), ChessPlayer.BLACK, R.drawable.knight_black);
 
-            pieceBox[j++] = new Bishop(3 + i*3,1,ChessPlayer.WHITE,R.drawable.bishop_white);
-            pieceBox[j++] = new Bishop(3 + i*3,8,ChessPlayer.BLACK,R.drawable.bishop_black);
+            pieceBox[j++] = new Bishop(3 + i * 3, Math.abs(colorDifferance-1), ChessPlayer.WHITE, R.drawable.bishop_white);
+            pieceBox[j++] = new Bishop(3 + i * 3, Math.abs(colorDifferance-8), ChessPlayer.BLACK, R.drawable.bishop_black);
         }
 
-        for (i = 1;i <= 8;i++){
-            pieceBox[j++] = new Pawn(i,2,ChessPlayer.WHITE,R.drawable.pawn_white);
-            pieceBox[j++] = new Pawn(i,7,ChessPlayer.BLACK,R.drawable.pawn_black);
+        for (i = 1; i <= 8; i++) {
+            pieceBox[j++] = new Pawn(i, Math.abs(colorDifferance-2), ChessPlayer.WHITE, R.drawable.pawn_white);
+            pieceBox[j++] = new Pawn(i, Math.abs(colorDifferance-7), ChessPlayer.BLACK, R.drawable.pawn_black);
         }
 
-        pieceBox[j++] = new Queen(4,1,ChessPlayer.WHITE,R.drawable.queen_white);
-        pieceBox[j++] = new Queen(4,8,ChessPlayer.BLACK,R.drawable.queen_black);
+        pieceBox[j++] = new Queen(4, Math.abs(colorDifferance-1), ChessPlayer.WHITE, R.drawable.queen_white);
+        pieceBox[j++] = new Queen(4, Math.abs(colorDifferance-8), ChessPlayer.BLACK, R.drawable.queen_black);
 
 
-        pieceBox[j++] = new King(5,1,ChessPlayer.WHITE,R.drawable.king_white);
-        pieceBox[j++] = new King(5,8,ChessPlayer.BLACK,R.drawable.king_black);
+        pieceBox[j++] = new King(5, Math.abs(colorDifferance-1), ChessPlayer.WHITE, R.drawable.king_white);
+        pieceBox[j++] = new King(5, Math.abs(colorDifferance-8), ChessPlayer.BLACK, R.drawable.king_black);
+
     }
-
     /**
      * This function get a location and check if there is a chessPiece in that location.
      * @param col - the location's col.

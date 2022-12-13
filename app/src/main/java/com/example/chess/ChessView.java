@@ -92,7 +92,7 @@ public class ChessView extends View {
                         }
                         chessDelegate.movePiece(fromCol, fromRow, toCol, toRow);
                         FireStoreHelper fireStoreHelper = new FireStoreHelper(game_name);
-                        fireStoreHelper.addMove(color,fromCol+","+fromRow+" -> "+(int) toCol+","+(int) toRow);
+                        fireStoreHelper.addMove(color,fromCol+","+(Math.abs(9-fromRow))+" -> "+(int) toCol+","+(Math.abs(9-((int) toRow))));
                         isMyTurn = false;
                     } else {
                         fromCol = (int) toCol;

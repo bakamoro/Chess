@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements ChessDelegate {
 
     private void paintPawnOption(int col, int row,ChessPlayer player) {
         Pawn pawn = new Pawn(col,row,player,0);
-        pawn.moveOption();
+        pawn.moveOption(color);
     }
 
     private void paintKnightOption(int col, int row,ChessPlayer player) {

@@ -6,8 +6,11 @@ public class Pawn extends ChessPiece{
     public Pawn(int col, int row, ChessPlayer player, int resId) {
         super(col, row, player,ChessRank.PAWN, resId);
     }
-    public void moveOption(){
+    public void moveOption(String color){
         int i = 0;
+        if(color.equals("black")){
+            player = ChessPlayer.WHITE;
+        }
         if(player == ChessPlayer.BLACK){
             if(row == 7) {
                 if (pieceAt(col, row - 1) == null) {
