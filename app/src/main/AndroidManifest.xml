@@ -13,13 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Chess">
         <activity
+            android:name=".joinSpecificOrRandomGame"
+            android:exported="false" />
+        <activity
             android:name=".createGame"
             android:exported="false" />
         <activity
             android:name=".CreateOrJoinGame"
             android:exported="false" />
         <activity
-            android:name=".joinGame"
+            android:name=".joinSpecificGame"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
