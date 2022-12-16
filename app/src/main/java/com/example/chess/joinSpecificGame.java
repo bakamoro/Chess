@@ -38,12 +38,14 @@ public class joinSpecificGame extends AppCompatActivity {
                     if (document.exists()) {
                         boolean black = !(boolean) document.get("BLACK");
                         boolean white = !(boolean) document.get("WHITE");
-                        if(black) moveToGame("black",game_name);
+                        if(black) {
+                            moveToGame("black", game_name);
+                            finish();
+                        }
                         else {
                             if(white) moveToGame("white",game_name);
                             else Toast.makeText(joinSpecificGame.this,"game is full",Toast.LENGTH_LONG).show();
                         }
-                        finish();
 //                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                     } else {
                         Toast.makeText(joinSpecificGame.this,"there is no such game",Toast.LENGTH_SHORT).show();

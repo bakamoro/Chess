@@ -43,14 +43,14 @@ public class ChessModel {
             return;
         }
         if(eatenPieceIndex == movingPieceIndex)return;
-        if(eatenPieceIndex != -1){
-            pieceBox[eatenPieceIndex] = null;
-        }
         FireStoreHelper fireStoreHelper = new FireStoreHelper(game_name);
-         if(pieceAt((int) toCol, (int) toRow) != null) {
+        if(pieceAt((int) toCol, (int) toRow) != null) {
             if (pieceAt((int) toCol, (int) toRow).rank == ChessRank.KING) {
                 fireStoreHelper.victory(color);
             }
+        }
+        if(eatenPieceIndex != -1){
+            pieceBox[eatenPieceIndex] = null;
         }
         pieceBox[movingPieceIndex].col =(int) toCol;
         pieceBox[movingPieceIndex].row =(int) toRow;
