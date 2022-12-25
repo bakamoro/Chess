@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/chess_trart_screen"
-    tools:context=".startScreen">
+    android:background="@color/black"
+    tools:context=".startScreen"
+    android:orientation="vertical"
+    android:weightSum="2">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/startScreenImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:src="@drawable/chess_start_screen" />
+
+    <TextView
+        android:id="@+id/welcomeToChessText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.5"
+        android:fontFamily="@font/bangers"
+        android:gravity="center"
+        android:text="Welcome to Chess"
+        android:textColor="#178A1E"
+        android:textSize="40sp" />
+
+</LinearLayout>

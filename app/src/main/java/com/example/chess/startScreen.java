@@ -4,13 +4,33 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class startScreen extends AppCompatActivity {
+
+    Animation topAnimation,bottomAnimation;
+
+    ImageView imageView;
+
+    TextView welcome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_screen);
+
+        topAnimation = AnimationUtils.loadAnimation(this,R.anim.top_animation);
+        bottomAnimation = AnimationUtils.loadAnimation(this,R.anim.bottom_animation);
+
+        imageView = findViewById(R.id.startScreenImage);
+        welcome = findViewById(R.id.welcomeToChessText);
+
+        imageView.setAnimation(topAnimation);
+        welcome.setAnimation(bottomAnimation);
+
         startIntentSender();
     }
 
