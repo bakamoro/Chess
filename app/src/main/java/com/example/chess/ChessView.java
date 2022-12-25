@@ -30,7 +30,7 @@ public class ChessView extends View {
     private int fromCol = 0,fromRow = 0;
     private float toCol = 0,toRow = 0;
     private final int originX = 20;
-    private final int originY = 300;
+    private final int originY = 500;
     private final int cellSide = 130;
 
     ChessDelegate chessDelegate = null;
