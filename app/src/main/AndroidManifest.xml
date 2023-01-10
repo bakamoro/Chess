@@ -16,6 +16,13 @@
             android:name=".MyService"
             android:enabled="true"
             android:exported="true"></service>
+        <receiver android:name=".MyReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".joinSpecificOrRandomGame"

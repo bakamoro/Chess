@@ -3,6 +3,8 @@ package com.example.chess;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity implements ChessDelegate {
@@ -21,8 +23,8 @@ public class MainActivity extends AppCompatActivity implements ChessDelegate {
         color = intent.getStringExtra("color");
         chessView.game_name = game_name;
         chessView.color = color;
-        if(color.equals("white")) chessView.isMyTurn = true;
-        chessModel = new ChessModel(pieceBox,green_square,game_name,color);
+        if (color.equals("white")) chessView.isMyTurn = true;
+        chessModel = new ChessModel(pieceBox, green_square, game_name, color);
     }
 
     @Override
@@ -112,5 +114,16 @@ public class MainActivity extends AppCompatActivity implements ChessDelegate {
         for (int i = 0; i<=27;i++){
             green_square[i] = null;
         }
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter filterWifi=new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(myReceiver,filterWifi);
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(myReceiver);
     }
 }

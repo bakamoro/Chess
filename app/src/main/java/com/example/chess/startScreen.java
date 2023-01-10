@@ -3,6 +3,8 @@ package com.example.chess;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -55,4 +57,6 @@ public class startScreen extends AppCompatActivity {
             }
         }).start();
     }
+
+
 }

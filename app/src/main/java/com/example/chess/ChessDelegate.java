@@ -8,5 +8,5 @@ public interface ChessDelegate {
     void Finish();
     ChessPiece pieceBox[] = new ChessPiece[32];
     Green_Square green_square[] = new Green_Square[28];
-
+    MyReceiver myReceiver = new MyReceiver();
 }

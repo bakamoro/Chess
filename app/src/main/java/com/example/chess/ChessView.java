@@ -1,14 +1,17 @@
 package com.example.chess;
 
 import static com.example.chess.ChessDelegate.green_square;
+import static com.example.chess.ChessDelegate.myReceiver;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.net.ConnectivityManager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -74,34 +77,42 @@ public class ChessView extends View {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:{
                 if (isMyTurn) {
-                    toCol = (int) ((event.getX() - originX) / cellSide) + 1;
-                    toRow = 8 - (int) ((event.getY() - originY) / cellSide);
-                    if (chessDelegate.squareIsGreen((int) toCol, (int) toRow)) {
-                        if (chessDelegate.pieceAt(fromCol, fromRow) != null && chessDelegate.pieceAt(fromCol, fromRow).rank == ChessRank.PAWN) {
-                            if (chessDelegate.pieceAt(fromCol, fromRow).player == ChessPlayer.WHITE) {
-                                if (toRow == 8) {
-                                    chessDelegate.pieceAt(fromCol, fromRow).rank = ChessRank.QUEEN;
-                                    chessDelegate.pieceAt(fromCol, fromRow).resId = R.drawable.queen_white;
-                                }
-                            } else {
-                                if (toRow == 1) {
-                                    chessDelegate.pieceAt(fromCol, fromRow).rank = ChessRank.QUEEN;
-                                    chessDelegate.pieceAt(fromCol, fromRow).resId = R.drawable.queen_black;
+                    if (myReceiver.isConnectionOn()) {
+                        toCol = (int) ((event.getX() - originX) / cellSide) + 1;
+                        toRow = 8 - (int) ((event.getY() - originY) / cellSide);
+                        if (chessDelegate.squareIsGreen((int) toCol, (int) toRow)) {
+                            if (chessDelegate.pieceAt(fromCol, fromRow) != null && chessDelegate.pieceAt(fromCol, fromRow).rank == ChessRank.PAWN) {
+                                if (chessDelegate.pieceAt(fromCol, fromRow).player == ChessPlayer.WHITE) {
+                                    if (toRow == 8) {
+                                        chessDelegate.pieceAt(fromCol, fromRow).rank = ChessRank.QUEEN;
+                                        chessDelegate.pieceAt(fromCol, fromRow).resId = R.drawable.queen_white;
+                                    }
+                                } else {
+                                    if (toRow == 1) {
+                                        chessDelegate.pieceAt(fromCol, fromRow).rank = ChessRank.QUEEN;
+                                        chessDelegate.pieceAt(fromCol, fromRow).resId = R.drawable.queen_black;
+                                    }
                                 }
                             }
+                            chessDelegate.movePiece(fromCol, fromRow, toCol, toRow);
+                            FireStoreHelper fireStoreHelper = new FireStoreHelper(game_name);
+                            fireStoreHelper.addMove(color, fromCol + "," + (Math.abs(9 - fromRow)) + " -> " + (int) toCol + "," + (Math.abs(9 - ((int) toRow))));
+                            isMyTurn = false;
+                        } else {
+                            fromCol = (int) toCol;
+                            fromRow = (int) toRow;
+                            chessDelegate.colorOption(fromCol, fromRow);
+                            invalidate();
                         }
-                        chessDelegate.movePiece(fromCol, fromRow, toCol, toRow);
-                        FireStoreHelper fireStoreHelper = new FireStoreHelper(game_name);
-                        fireStoreHelper.addMove(color,fromCol+","+(Math.abs(9-fromRow))+" -> "+(int) toCol+","+(Math.abs(9-((int) toRow))));
-                        isMyTurn = false;
-                    } else {
                         fromCol = (int) toCol;
                         fromRow = (int) toRow;
-                        chessDelegate.colorOption(fromCol, fromRow);
-                        invalidate();
                     }
-                    fromCol = (int) toCol;
-                    fromRow = (int) toRow;
+                    else {
+                        Toast.makeText(getContext(),"please turn on the internet connection",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(getContext(),"please wait for your turn",Toast.LENGTH_SHORT).show();
                 }
                 break;
             }
