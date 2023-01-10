@@ -22,6 +22,8 @@ public class startScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_screen);
 
+        startService(new Intent(this,MyService.class));
+
         topAnimation = AnimationUtils.loadAnimation(this,R.anim.top_animation);
         bottomAnimation = AnimationUtils.loadAnimation(this,R.anim.bottom_animation);
 
@@ -40,7 +42,8 @@ public class startScreen extends AppCompatActivity {
             public void run() {
                 try {
                     synchronized (this){
-                        wait(2000);
+                        wait(4000);
+                        stopService(new Intent(startScreen.this, MyService.class));
                         Intent intent = new Intent(startScreen.this,CreateOrJoinGame.class);
                         startActivity(intent);
                         finish();
