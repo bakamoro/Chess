@@ -54,6 +54,23 @@ public class ChessModel {
         }
         pieceBox[movingPieceIndex].col =(int) toCol;
         pieceBox[movingPieceIndex].row =(int) toRow;
+        if(chessPiece.rank == ChessRank.KING){
+            if(Math.abs(fromCol-toCol)>1){
+                if((fromCol-toCol)>0){
+                    ChessPiece rook = (pieceAt(1,fromRow));
+                    movePiece(rook.col,rook.row,(int)toCol+1,(int) toRow+1);
+                }
+                else {
+
+                    ChessPiece rook = (pieceAt(8,fromRow));
+                    movePiece(rook.col,rook.row,(int)toCol-1,(int) toRow);
+                }
+            }
+            ((King)chessPiece).setStealNotMoveToFalse();
+        }
+        if(chessPiece.rank == ChessRank.ROOK){
+            ((Rook)chessPiece).setStealNotMoveToFalse();
+        }
     }
 
     /**

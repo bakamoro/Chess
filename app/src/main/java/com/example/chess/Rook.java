@@ -3,6 +3,7 @@ package com.example.chess;
 import static com.example.chess.ChessDelegate.green_square;
 
 public class Rook extends ChessPiece{
+    private boolean stealNotMove = true;
     public Rook(int col, int row, ChessPlayer player, int resId) {
         super(col, row, player,ChessRank.ROOK, resId);
     }
@@ -44,5 +45,11 @@ public class Rook extends ChessPiece{
             }
             else k = 1;
         }
+    }
+    public void setStealNotMoveToFalse(){
+        stealNotMove = false;
+    }
+    public boolean getStealNotMove(){
+        return stealNotMove;
     }
 }
