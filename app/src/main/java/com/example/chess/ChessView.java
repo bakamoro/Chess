@@ -3,6 +3,7 @@ package com.example.chess;
 import static com.example.chess.ChessDelegate.green_square;
 import static com.example.chess.ChessDelegate.myReceiver;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
@@ -13,6 +14,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -33,8 +35,9 @@ public class ChessView extends View {
     private int fromCol = 0,fromRow = 0;
     private float toCol = 0,toRow = 0;
     private final int originX = 20;
-    private final int originY = 500;
-    private final int cellSide = 130;
+    private final int cellSide = ((getVieWidth()-40)/8);
+    private final int originY = (getVieHeight()-cellSide*8)/2;
+    ;
 
     ChessDelegate chessDelegate = null;
     String game_name;
@@ -183,7 +186,14 @@ public class ChessView extends View {
             }
         });
     }
-
+    public int getVieWidth(){
+        DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
+        return metrics.widthPixels;
+    }
+    public int getVieHeight() {
+        DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
+        return metrics.heightPixels;
+    }
     public ChessView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
@@ -192,3 +202,4 @@ public class ChessView extends View {
         super(context, attrs, defStyleAttr);
     }
 }
+
