@@ -146,12 +146,22 @@ public class ChessView extends View {
     }
 
     private void drawChessBoard(Canvas canvas){
+        ChessPlayer player = chessDelegate.pieceAt(1,1).player;
+
         for(int i = 0 ;i<=7 ;i++) {
             for(int j = 0 ;j<=7 ;j++) {
                 if((j + i) % 2 == 0) {
-                    paint.setColor(Color.LTGRAY);
+                    if(player == ChessPlayer.WHITE) {
+                        paint.setColor(Color.LTGRAY);
+                    }
+                    else paint.setColor(Color.DKGRAY);
                 }
-                else paint.setColor(Color.DKGRAY);
+                else {
+                    if (player == ChessPlayer.WHITE) {
+                        paint.setColor(Color.DKGRAY);
+                    }
+                    else paint.setColor(Color.LTGRAY);
+                }
                 canvas.drawRect(originX + i * cellSide , originY + j * cellSide , originX + (i+1) * cellSide , originY + (j+1) * cellSide ,paint);
             }
         }
