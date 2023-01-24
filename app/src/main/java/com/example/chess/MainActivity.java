@@ -67,12 +67,6 @@ public class MainActivity extends AppCompatActivity implements ChessDelegate {
         if(chessPiece.rank == ChessRank.QUEEN)paintQueenOption(col,row,player);
     }
 
-    @Override
-    public void Finish() {
-        finish();
-    }
-
-
     private void paintPawnOption(int col, int row,ChessPlayer player) {
         Pawn pawn = new Pawn(col,row,player,0);
         pawn.moveOption(color);
