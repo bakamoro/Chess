@@ -46,6 +46,7 @@ public class ChessView extends View {
 
     public ChessView(Context context) {
         super(context);
+
     }
 
     @Override
@@ -146,7 +147,11 @@ public class ChessView extends View {
     }
 
     private void drawChessBoard(Canvas canvas){
-        ChessPlayer player = chessDelegate.pieceAt(1,1).player;
+        ChessPlayer player;
+        if(color.equals("white")){
+            player = ChessPlayer.WHITE;
+        }
+        else player = ChessPlayer.BLACK;
 
         for(int i = 0 ;i<=7 ;i++) {
             for(int j = 0 ;j<=7 ;j++) {
@@ -183,14 +188,20 @@ public class ChessView extends View {
                         isMyTurn = true;
                     }
                     if(value.get("Victory") != null){
-                        Toast.makeText(getContext(), "The "+value.get("Victory") + " won",Toast.LENGTH_LONG).show();
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                        if(value.get("Victory").equals(color)){
+                            Toast.makeText(getContext(), "The winner is you",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "please get out",Toast.LENGTH_SHORT).show();
                         }
+                        else {
+                            Toast.makeText(getContext(), "The loser is you", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "HA HA HA HA",Toast.LENGTH_SHORT).show();
+                        }
+//                        try {
+//                            Thread.sleep(1000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
                         db.collection("chess games").document(game_name).delete();
-                        chessDelegate.Finish();
                     }
                 }
             }
