@@ -1,5 +1,8 @@
 package com.example.chess;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,23 +33,17 @@ public class FireStoreHelper {
         this.mySendingData = mySendingData;
     }
 
-    public void startFireStore() {
+    public void startFireStore(Context context) {
         Map<String, Object> chessMoves = new HashMap<>();
         chessMoves.put("WHITE", false);
         chessMoves.put("BLACK", false);
         chessMoves.put("TURN","white");
         db.collection(collectionPath).document(game_name)
                 .set(chessMoves)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-//                        Log.d(TAG, "DocumentSnapshot successfully written!");
-                    }
-                })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-//                        Log.w(TAG, "Error writing document", e);
+                        Toast.makeText(context,"couldn't connect to fire store",Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -61,20 +58,14 @@ public class FireStoreHelper {
         db.collection(collectionPath).document(game_name)
                 .set(data, SetOptions.merge());
     }
-    public void pickColor(String color,Boolean aBoolean){
+    public void pickColor(String color, Boolean aBoolean, Context context){
         DocumentReference washingtonRef = db.collection(collectionPath).document(game_name);
         washingtonRef
                 .update(color,aBoolean)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-//                        Log.d(TAG, "DocumentSnapshot successfully updated!");
-                    }
-                })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-//                        Log.w(TAG, "Error updating document", e);
+                        Toast.makeText(context,"couldn't connect to fire store",Toast.LENGTH_SHORT).show();
                     }
                 });
     }

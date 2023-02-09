@@ -40,9 +40,9 @@ public class createGame extends AppCompatActivity {
         if(nameIsLegal(game_name)) {
             if ((black||white)) {
                 fireStoreHelper = new FireStoreHelper(game_name);
-                fireStoreHelper.startFireStore();
-                fireStoreHelper.pickColor("WHITE", white);
-                fireStoreHelper.pickColor("BLACK", black);
+                fireStoreHelper.startFireStore(getApplicationContext());
+                fireStoreHelper.pickColor("WHITE", white,getApplicationContext());
+                fireStoreHelper.pickColor("BLACK", black,getApplicationContext());
                 if(black == true)Color = "black";
                 else Color = "white";
                 moveToGame();

@@ -60,7 +60,7 @@ public class joinSpecificGame extends AppCompatActivity {
 
     private void moveToGame(String Color,String game_name){
         FireStoreHelper fireStoreHelper = new FireStoreHelper(game_name);
-        fireStoreHelper.pickColor((Color.toUpperCase(Locale.ROOT)),true);
+        fireStoreHelper.pickColor((Color.toUpperCase(Locale.ROOT)),true,getApplicationContext());
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("game_name",game_name);
         intent.putExtra("color",Color);
