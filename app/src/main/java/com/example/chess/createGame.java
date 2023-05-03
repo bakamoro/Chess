@@ -20,13 +20,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class createGame extends AppCompatActivity {
 
-    EditText gameName;
+    EditText gameName; // the name of the game in EditText type
 
-    String game_name,Color;
+    String game_name// the name of the game in EditText type
+            ,Color;//the chosen color.
 
-    FireStoreHelper fireStoreHelper;
+    FireStoreHelper fireStoreHelper;//type FireStoreHelper help to write to fire store data base.
 
-    boolean white = false,black = false;
+    boolean white = false,black = false;//type boolean changes accordingly to chosen color.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,9 @@ public class createGame extends AppCompatActivity {
         gameName = findViewById(R.id.gameNameText);
     }
 
+    /**
+     * check is there is already a game under the chosen game_name if there is not and color has been chosen create game and call moveToGame().
+     */
     public void createGame(View view) {
         game_name = gameName.getText().toString();
 
@@ -60,13 +64,14 @@ public class createGame extends AppCompatActivity {
                         }
                         else Toast.makeText(createGame.this,"please pick a color",Toast.LENGTH_SHORT).show();
                     }
-                } else {
-//                    Log.d(TAG, "get failed with ", task.getException());
                 }
             }
         });
     }
 
+    /**
+     *move to MainActivity and send the game_name and color.
+     */
     private void moveToGame(){
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("game_name",game_name);
@@ -74,6 +79,9 @@ public class createGame extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     *check which radio button is in and change white and black values accordingly.
+     */
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
