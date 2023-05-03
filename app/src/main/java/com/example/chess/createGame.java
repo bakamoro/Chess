@@ -37,42 +37,34 @@ public class createGame extends AppCompatActivity {
 
     public void createGame(View view) {
         game_name = gameName.getText().toString();
-        if(nameIsLegal(game_name)) {
-            if ((black||white)) {
-                fireStoreHelper = new FireStoreHelper(game_name);
-                fireStoreHelper.startFireStore(getApplicationContext());
-                fireStoreHelper.pickColor("WHITE", white,getApplicationContext());
-                fireStoreHelper.pickColor("BLACK", black,getApplicationContext());
-                if(black == true)Color = "black";
-                else Color = "white";
-                moveToGame();
-                finish();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("chess games").document(game_name);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Toast.makeText(createGame.this,"game is alredy exist",Toast.LENGTH_SHORT).show();
+                    } else {
+                        if ((black||white)) {
+                            fireStoreHelper = new FireStoreHelper(game_name);
+                            fireStoreHelper.startFireStore(getApplicationContext());
+                            fireStoreHelper.pickColor("WHITE", white,getApplicationContext());
+                            fireStoreHelper.pickColor("BLACK", black,getApplicationContext());
+                            if(black == true)Color = "black";
+                            else Color = "white";
+                            moveToGame();
+                            finish();
+                        }
+                        else Toast.makeText(createGame.this,"please pick a color",Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+//                    Log.d(TAG, "get failed with ", task.getException());
+                }
             }
-            else Toast.makeText(createGame.this,"please pick a color",Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private boolean nameIsLegal(String game_name) {
-        boolean isLegal = true;
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        DocumentReference docRef = db.collection("chess games").document(game_name);
-//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-////                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-//                    } else {
-////                        Log.d(TAG, "No such document");
-//                    }
-//                } else {
-////                    Log.d(TAG, "get failed with ", task.getException());
-//                }
-//            }
-//        });
-
-        return isLegal;
+        });
     }
 
     private void moveToGame(){
