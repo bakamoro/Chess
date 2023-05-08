@@ -18,7 +18,7 @@ import java.util.Locale;
 
 public class joinSpecificOrRandomGame extends AppCompatActivity{
 
-    private String game_name;
+    private String game_name;//the name of te game.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +27,18 @@ public class joinSpecificOrRandomGame extends AppCompatActivity{
 
     }
 
+    /**
+     * move to the joinSpecificGame activity.
+     */
     public void joinSpecificGame(View view) {
         Intent intent = new Intent(this,joinSpecificGame.class);
         startActivity(intent);
         finish();
     }
 
+    /**
+     *Checks if there is a game that can be joined and if so puts it in a random one.
+     */
     public void JoinRandomGame(View view) {
         MySendingData mySendingData = new MySendingData() {
             @Override
@@ -46,6 +52,10 @@ public class joinSpecificOrRandomGame extends AppCompatActivity{
         FireStoreHelper fireStoreHelper1 = new FireStoreHelper(mySendingData);
         fireStoreHelper1.randomGames();
     }
+
+    /**
+     * move to the MainActivity activity and sending there the name of the game and the player's color..
+     */
     private void moveToGame(String Color,String game_name){
         FireStoreHelper fireStoreHelper = new FireStoreHelper(game_name);
         fireStoreHelper.pickColor((Color.toUpperCase(Locale.ROOT)),true,getApplicationContext());
@@ -55,7 +65,10 @@ public class joinSpecificOrRandomGame extends AppCompatActivity{
         startActivity(intent);
     }
 
-
+    /**
+     * check if the game is full and if doesn't move the player to the game as black/white as need.
+     * @param s - the name of the game.
+     */
     private void myHandleMsg(String s) {
         game_name = s;
         if(game_name == null)return;
