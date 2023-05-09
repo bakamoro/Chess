@@ -25,6 +25,9 @@ public class joinSpecificGame extends AppCompatActivity {
         setContentView(R.layout.activity_join_specific_game);
     }
 
+    /**
+     *Checks if the selected game exists and if so is it available and if so calls moveToGame.
+     */
     public void joinGema(View view) {
         TextView textView = findViewById(R.id.gameNameText);
         String game_name = textView.getText().toString();
@@ -57,7 +60,9 @@ public class joinSpecificGame extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * move to the MainActivity activity and sending there the name of the game and the player's color..
+     */
     private void moveToGame(String Color,String game_name){
         FireStoreHelper fireStoreHelper = new FireStoreHelper(game_name);
         fireStoreHelper.pickColor((Color.toUpperCase(Locale.ROOT)),true,getApplicationContext());
