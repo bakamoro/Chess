@@ -1,13 +1,11 @@
 package com.example.chess;
 
-import androidx.annotation.NonNull;
-
 public class ChessModel {
 
-    ChessPiece pieceBox[];
-    Green_Square green_square[];
-    String game_name;
-    String color;
+    ChessPiece pieceBox[];//all the pieces in the game.
+    Green_Square green_square[];//All potential slots to move the piece.
+    String game_name;//the game's name.
+    String color;//the player's color.
 
     /**
      * This function is the chess model construction function.
@@ -157,51 +155,5 @@ public class ChessModel {
             }
         }
         return -1;
-    }
-    @NonNull
-    @Override
-    public String toString() {
-        String desk = " \n";
-            for (int row = 8; row>=1; row--){
-            desk += row;
-            for(int col = 1 ; col<=8; col++){
-                if(pieceAt(col,row) == null) {
-                    desk += " .";
-                }
-                else{
-                    ChessPiece piece = pieceBox[findPieceIndex(pieceAt(col,row))];
-                    boolean white = (piece.player == ChessPlayer.WHITE);
-                    switch (piece.rank){
-                        case KING: {
-                            desk += (white)? " k" : " K";
-                            break;
-                        }
-                        case QUEEN: {
-                            desk += (white)? " q" : " Q";
-                            break;
-                        }
-                        case BISHOP: {
-                            desk += (white) ? " b" : " B";
-                            break;
-                        }
-                        case PAWN: {
-                            desk += (white) ? " p" : " P";
-                            break;
-                        }
-                        case ROOK: {
-                            desk += (white) ? " r" : " R";
-                            break;
-                        }
-                        case KNIGHT: {
-                            desk += (white) ? " n" : " N";
-                            break;
-                        }
-                    }
-                }
-            }
-            desk += "\n";
-        }
-        desk += "  1 2 3 4 5 6 7 8";
-        return desk;
     }
 }
