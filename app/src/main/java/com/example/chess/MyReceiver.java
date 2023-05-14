@@ -1,6 +1,5 @@
 package com.example.chess;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +7,14 @@ import android.net.ConnectivityManager;
 import android.widget.Toast;
 
 public class MyReceiver extends BroadcastReceiver {
-    private Boolean isConnectionOn = false;
+
+    private Boolean isConnectionOn = false;// A boolean variable that reflect the connection situation.
+
+    /**
+     * this function tell if the connection is on or off.
+     * @param context this app's context
+     * @param intent - the Activity intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         if (ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())){
@@ -23,6 +29,10 @@ public class MyReceiver extends BroadcastReceiver {
             }
         }
     }
+
+    /**
+     * @return true if the connection is on anf false if it is off.
+     */
     public boolean isConnectionOn(){
         return isConnectionOn;
     }
