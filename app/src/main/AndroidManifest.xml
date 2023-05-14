@@ -12,10 +12,6 @@
         android:roundIcon="@drawable/chess_start_screen"
         android:supportsRtl="true"
         android:theme="@style/Theme.Chess">
-        <service
-            android:name=".MyService"
-            android:enabled="true"
-            android:exported="true"></service>
         <receiver android:name=".MyReceiver"
             android:enabled="true"
             android:exported="true">
