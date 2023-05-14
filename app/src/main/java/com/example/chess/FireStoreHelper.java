@@ -20,19 +20,31 @@ import java.util.Map;
 import java.util.Random;
 
 public class FireStoreHelper {
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private String game_name;
-    private String collectionPath = "chess games";
-    private MySendingData mySendingData;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();//A variable of type FirebaseFirestore
+    private String game_name;//the name of the game.
+    private String collectionPath = "chess games";//Where all the games are.
+    private MySendingData mySendingData;//A variable of type MySendingData.
 
+    /**
+     * the FireStoreHelper constructor that get the game_name.
+     * @param game_name - the name of the game.
+     */
     public FireStoreHelper(String game_name){
         this.game_name = game_name;
     }
 
+    /**
+     * the FireStoreHelper constructor that get the mySendingData.
+     * @param mySendingData - A variable of type MySendingData.
+     */
     public FireStoreHelper(MySendingData mySendingData){
         this.mySendingData = mySendingData;
     }
 
+    /**
+     * this function create a new document in FireStore under the name of the game and fill it with the fields : WHITE, BLACK, TURN.
+     * @param context - this app context
+     */
     public void startFireStore(Context context) {
         Map<String, Object> chessMoves = new HashMap<>();
         chessMoves.put("WHITE", false);
@@ -47,6 +59,12 @@ public class FireStoreHelper {
                     }
                 });
     }
+
+    /**
+     * this function update the field LastMove to the player's last move and change the TURN.
+     * @param color - the color of the player.
+     * @param chessMove - the last move the player did.
+     */
     public void addMove(String color,String chessMove){
         Map<String, Object> data = new HashMap<>();
         if(color.equals("white")){
@@ -58,6 +76,13 @@ public class FireStoreHelper {
         db.collection(collectionPath).document(game_name)
                 .set(data, SetOptions.merge());
     }
+
+    /**
+     * This function update the WHITE/BLACK.
+     * @param color - the chosen color - black/white.
+     * @param aBoolean - the value the WHITE/BLACK is going to be.
+     * @param context - the app's context.
+     */
     public void pickColor(String color, Boolean aBoolean, Context context){
         DocumentReference washingtonRef = db.collection(collectionPath).document(game_name);
         washingtonRef
@@ -69,12 +94,21 @@ public class FireStoreHelper {
                     }
                 });
     }
+
+    /**
+     * This function update the Victory field in FireStore..
+     * @param color - the player's color.
+     */
     public void victory(String color){
         Map<String, Object> data = new HashMap<>();
         data.put("Victory", color);
         db.collection(collectionPath).document(game_name)
                 .set(data, SetOptions.merge());
     }
+
+    /**
+     * This function using the mySendingData to send a name of a random available game.
+     */
     public void randomGames(){
         db.collection(collectionPath)
                 .get()
@@ -88,7 +122,6 @@ public class FireStoreHelper {
                                 if(!(document.get("WHITE").equals(true)&&document.get("BLACK").equals(true)) && i<10){
                                     games_names[i++] = document.getId();
                                 }
-//                                Log.d(TAG, document.getId() + " => " + document.getData());
                             }
                             if(i>0) {
                                 Random random = new Random();
@@ -96,8 +129,6 @@ public class FireStoreHelper {
                                 mySendingData.handleMsg(games_names[j]);
                             }
                             else mySendingData.handleMsg(null);
-                        } else {
-//                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
