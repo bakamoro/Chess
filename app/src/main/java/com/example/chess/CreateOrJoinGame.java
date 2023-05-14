@@ -14,11 +14,17 @@ public class CreateOrJoinGame extends AppCompatActivity {
         setContentView(R.layout.activity_create_or_join_game);
     }
 
+    /**
+     * Sends you to the createGame screen.
+     */
     public void createGame(View view) {
         Intent intent = new Intent(this,createGame.class);
         startActivity(intent);
     }
 
+    /**
+     * Sends you to the joinSpecificOrRandomGame screen.
+     */
     public void joinGema(View view) {
         Intent intent = new Intent(this, joinSpecificOrRandomGame.class);
         startActivity(intent);
