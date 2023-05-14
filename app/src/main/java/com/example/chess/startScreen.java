@@ -13,12 +13,16 @@ import android.widget.TextView;
 
 public class startScreen extends AppCompatActivity {
 
-    Animation topAnimation,bottomAnimation;
+    Animation topAnimation//Animation for the image that will enter from above.
+            ,bottomAnimation;//Animation for the text that will enter from below.
 
-    ImageView imageView;
+    ImageView imageView;//The image shown on the opening screen.
 
-    TextView welcome;
+    TextView welcome;//The text that appears on the opening screen.
 
+    /**
+     * Sets all attributes and runs startIntentSender.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +41,9 @@ public class startScreen extends AppCompatActivity {
         startIntentSender();
     }
 
+    /**
+     *Waits 4 seconds and then turns off the music and goes to the next screen.
+     */
     private void startIntentSender(){
         new Thread(new Runnable() {
             @Override
@@ -55,6 +62,5 @@ public class startScreen extends AppCompatActivity {
             }
         }).start();
     }
-
 
 }
