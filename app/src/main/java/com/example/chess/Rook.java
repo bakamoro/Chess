@@ -3,10 +3,23 @@ package com.example.chess;
 import static com.example.chess.ChessDelegate.green_square;
 
 public class Rook extends ChessPiece{
-    private boolean stealNotMove = true;
+
+    private boolean stealNotMove = true;//A Boolean variable that stores whether the rook has moved already in the game.
+
+    /**
+     * The constructor
+     * @param col - The piece location column.
+     * @param row - The piece location row.
+     * @param player - The color of the piece.
+     * @param resId - The ID of his image.
+     */
     public Rook(int col, int row, ChessPlayer player, int resId) {
         super(col, row, player,ChessRank.ROOK, resId);
     }
+
+    /**
+     * set green_square to be all the optional movements of the rook.
+     */
     public void moveOption(int j){
         int k = 0,i = 1;
         for (;i<=7 && k == 0;i++){
@@ -46,9 +59,17 @@ public class Rook extends ChessPiece{
             else k = 1;
         }
     }
+
+    /**
+     * Set the value of stealNotMove to false.
+     */
     public void setStealNotMoveToFalse(){
         stealNotMove = false;
     }
+
+    /**
+     * @return the value of stealNotMove.
+     */
     public boolean getStealNotMove(){
         return stealNotMove;
     }
