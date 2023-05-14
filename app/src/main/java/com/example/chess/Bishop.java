@@ -3,6 +3,14 @@ package com.example.chess;
 import static com.example.chess.ChessDelegate.green_square;
 
 public class Bishop extends ChessPiece{
+
+    /**
+     * The constructor
+     * @param col - The piece location column.
+     * @param row - The piece location row.
+     * @param player - The color of the piece.
+     * @param resId - The ID of his image.
+     */
     public Bishop(int col, int row, ChessPlayer player, int resId) {
         super(col,
                 row,
@@ -10,6 +18,10 @@ public class Bishop extends ChessPiece{
                 ChessRank.BISHOP,
                 resId);
     }
+
+    /**
+     * set green_square to be all the optional movements of the bishop.
+     */
     public int moveOption() {
         int i = 1,j=0,k = 0;
         for (;i<=7 && k == 0;i++){
