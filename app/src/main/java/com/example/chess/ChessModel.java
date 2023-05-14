@@ -121,6 +121,13 @@ public class ChessModel {
         }
         return null;
     }
+
+    /**
+     * This function get a location and check if there is a green_square in that location.
+     * @param col - the location's col.
+     * @param row - the location's row.
+     * @return true if there is green_square at the location or null if there isn't.
+     */
     public boolean squareIsGreen(int col, int row) {
         for (int i = 0;i<28;i++){
             if(green_square[i] == null)
