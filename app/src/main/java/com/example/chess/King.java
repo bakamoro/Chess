@@ -18,7 +18,7 @@ public class King extends ChessPiece{
     }
 
     /**
-     * set green_square to be all the optional movements of the rook.
+     * set green_square to be all the optional movements of the king.
      */
     public void moveOption(){
         int j = 0,i,l;
