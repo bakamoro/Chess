@@ -31,24 +31,30 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class ChessView extends View {
 
-    private final Paint paint = new Paint();
-    private int fromCol = 0,fromRow = 0;
-    private float toCol = 0,toRow = 0;
-    private final int originX = 20;
-    private final int cellSide = ((getVieWidth()-40)/8);
-    private final int originY = (getVieHeight()-cellSide*8)/2;
-    ;
+    private final Paint paint = new Paint(); //A variable of type Paint.
+    private int fromCol = 0// The column of the selected piece
+            ,fromRow = 0;// The row of the selected piece
+    private float toCol = 0//The designated column of the selected piece.
+            ,toRow = 0;//The designated row of the selected piece.
+    private final int originX = 20;//The starting position of the board from the right side.
+    private final int cellSide = ((getVieWidth()-40)/8);//Size of each slot (length and width)
+    private final int originY = (getVieHeight()-cellSide*8)/2;//The starting position of the board from the bottom.
 
-    ChessDelegate chessDelegate = null;
-    String game_name;
-    String color;
-    boolean isMyTurn;
+    ChessDelegate chessDelegate = null;//A variable of type ChessDelegate.
+    String game_name;//The name of the game.
+    String color;//the color of the player.
+    boolean isMyTurn;//Is it the user's turn, a Boolean variable.
 
+    /**
+     * the empty constructor.
+     */
     public ChessView(Context context) {
         super(context);
-
     }
 
+    /**
+     * This function draws the parts in this game.
+     */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -58,6 +64,10 @@ public class ChessView extends View {
         updateMoves();
     }
 
+    /**
+     * this function draws the green square that are in the green_square[].
+     * @param canvas - this canvas.
+     */
     private void drawGreenSquares(Canvas canvas) {
         for (int i = 0;i<28;i++){
             if(green_square[i]!=null) {
@@ -68,6 +78,11 @@ public class ChessView extends View {
         }
     }
 
+    /**
+     * this function get a single square and paint it green.
+     * @param canvas - this canvas.
+     * @param square - the square that need to paint.
+     */
     private void drawGreenSquare(Canvas canvas ,Green_Square square) {
         Paint mPaint = new Paint();
         int color = ContextCompat.getColor(getContext(), R.color.light_green);
@@ -75,7 +90,11 @@ public class ChessView extends View {
         canvas.drawRect(originX + (square.col - 1) * cellSide, originY + (8 - square.row) * cellSide, originX + (square.col) * cellSide, originY + (8 - square.row + 1) * cellSide, mPaint);
     }
 
-
+    /**
+     * This function activated when there is a touch on the screen and acting accordingly to the event.
+     * @param event - the given event.
+     * @return true.
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()){
@@ -130,6 +149,10 @@ public class ChessView extends View {
         return true;
     }
 
+    /**
+     * This function draw all the pieces that are in pieceBox[].
+     * @param canvas - this canvas.
+     */
     private void drawChessPieces(Canvas canvas) {
         for(int row = 1;row<=8;row++){
             for(int col = 1;col <= 8;col++){
@@ -140,12 +163,24 @@ public class ChessView extends View {
             }
         }
     }
+
+    /**
+     * This function get an image's id and paint it according to the given location.
+     * @param canvas - this canvas
+     * @param col - The piece's column.
+     * @param row - The piece's row.
+     * @param Id - The Id of the piece's image.
+     */
     private void drawChessPiece(Canvas canvas , int col , int row , int Id) {
         row = 9-row;
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), Id);
         canvas.drawBitmap(bitmap,null,new Rect((col-1) * cellSide + originX,(row-1) * cellSide + originY,col*cellSide + originX,row*cellSide + originY),paint);
     }
 
+    /**
+     * This function draws the chess board.
+     * @param canvas - this canvas.
+     */
     private void drawChessBoard(Canvas canvas){
         ChessPlayer player;
         if(color.equals("white")){
@@ -171,6 +206,10 @@ public class ChessView extends View {
             }
         }
     }
+
+    /**
+     * This function activated when a change is made in FireStore and if it is the other players move she moves the pieces accordingly
+     */
     public void updateMoves(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("chess games").document(game_name).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -207,14 +246,23 @@ public class ChessView extends View {
             }
         });
     }
-    public int getVieWidth(){
+
+    /**
+     * @return the width of the view.
+     */
+        public int getVieWidth(){
         DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
         return metrics.widthPixels;
     }
+
+    /**
+     * @return the height of the view.
+     */
     public int getVieHeight() {
         DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
         return metrics.heightPixels;
     }
+
     public ChessView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
